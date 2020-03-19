@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void suma(int n,int v[20],int *s) // am folosit int pentru ca nu pot folosi transmiterea prin referinta in C
+void suma(int n,int v[20],int *s)
 {
    int i;
    for(i=0;i<n;i++) (*s)=(*s)+v[i];
