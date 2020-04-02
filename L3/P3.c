@@ -2,28 +2,19 @@
 #include <stdlib.h>
 
 int main()
-{   int n,x,nr=7;
-    x=0;
+{
+    int n,i,ok=1;
 
     printf("n=");scanf("%d",&n);
 
-    while(nr>=0)
+    for(i=0;i<7;i++)
     {
-     if((1&(n>>nr))==0) x=x|(1<<nr);
-     printf("%d",(1&(n>>nr)));
-     nr--;
-    }
-    printf("\n");
-
-    nr=7;
-    while(nr>=0)
-    {
-        printf("%d",(1&(x>>nr)));
-        nr--;
+        if((1&(n>>i))==1) ok=0;
     }
 
-    printf("\n");
+    if(ok==1) printf("Numarul este 0\n");
+   else if((1&(n>>i))==1) printf("\nNumarul este negativ\n"); //for-ul se opreste la 7 deci stim ca i este 7
+        else printf("\nNumarul este pozitiv\n");
 
-    printf("%d",x);
     return 0;
 }

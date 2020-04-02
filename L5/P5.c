@@ -1,37 +1,108 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void og(int x,int k,int *o)
+typedef struct stiva
 {
-    if(x!=0) og(x/10,k*10+x%10,o);
-    else *o=k;
+    int max,val;
+}p;
+
+void adaugare_init(p *st,int x,int *nr)
+{
+    if(x<=50){
+        (st+x)->val=x;
+        (st+x)->max=50;
+        adaugare_init(st,x+1,nr);
+    }
+    else (*nr)=x-1;
 }
 
-void afisare(int n,int v[20])
+int valid(int x)
 {
-    if(n!=0) {printf("%d ",v[n]);
-             afisare(n-1,v);}
+    int i;
+    for(i=2;i<=x/2;i++)
+    {
+        if(x%i==0) return 1;
+    }
+    return 0;
+}
 
+int binar(int x)
+{
+    if(x) return x%2+10*binar(x/2);
+    else return 0;
+}
+
+void stergere(p *st,int *nr)
+{
+    if((*nr)==-1) printf("Nu mai exista nimic de sters.");
+
+    else {
+    (st+(*nr))->val=0;
+    (*nr)--;
+    }
+}
+
+void add(p *st,int *nr,int x)
+{
+    (st+(*nr))->val=x;
+    (*nr)++;
+}
+
+void impartire(p *st,int *nr,p *st2,int *x2)
+{
+    int nr1=0,nr2=0,i;
+    p *prime,*bune;
+    prime=(p*)malloc(sizeof(p)*51);
+    bune=(p*)malloc(sizeof(p)*51);
+
+    while((*nr)>0)
+    {
+        if(valid((st+(*nr))->val)==1){
+          add(bune,&nr1,(st+(*nr))->val);
+        }
+        else {
+            add(prime,&nr2,binar((st+(*nr))->val));
+         }
+
+
+    stergere(st,nr);
+    }
+    nr1--;
+    nr2--;
+    i=0;
+    while(nr1>=0)
+    {
+        add(st,&i,(bune+nr1)->val);
+        stergere(bune,&nr1);
+    }
+    (*nr)=i;
+
+    i=0;
+    while(nr2>=0)
+    {
+        add(st2,&i,(prime+nr2)->val);
+        stergere(prime,&nr2);
+    }
+    (*x2)=i;
 }
 
 int main()
 {
-    int k=0,n,o,N,i,v[20];
+    p *st,*st2;
+    int i,nr=0,x2=0;
 
-    printf("N=");scanf("%d",&N);
+    st=(p*)malloc(sizeof(p)*51);
+    st2=(p*)malloc(sizeof(p)*51);
 
-    for(i=0;i<N;i++)
-{
-    printf("n=");scanf("%d",&n);
-    o=0;
-    og(n,0,&o);
-   if(n==o)
-            {k++;
-             v[k]=n;
-            }
-    }
+    adaugare_init(st,1,&nr);
 
-     afisare(k,v);
+    impartire(st,&nr,st2,&x2);
+
+    for(i=0;i<nr;i++) printf("%d ",(st+i)->val);
+
+    printf("\n");
+
+    for(i=0;i<x2;i++) printf("%d ",(st2+i)->val);
 
     return 0;
 }
