@@ -3,6 +3,7 @@
 
 int valid(int st[20],int k)
 {
+    int i;
     for(i=1;i<k;i++)
     {
         if(st[i]==st[k]) return 0;   // conditie pentru a nu se suprapune bombele
